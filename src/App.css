@@ -1,0 +1,9 @@
+.app{
+  margin-inline: 10px;
+}
+.autocomplete_wrapper{
+  max-width: 32rem;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+}
