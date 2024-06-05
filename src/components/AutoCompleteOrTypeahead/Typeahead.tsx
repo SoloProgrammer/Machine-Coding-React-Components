@@ -10,6 +10,7 @@ type AutoCompleteProps = {
   isLoading?: true | false;
   error?: string;
   debounce?: true | false;
+  onSelect?: (val: string) => void;
 };
 const AutoComplete = ({
   results,
@@ -17,15 +18,18 @@ const AutoComplete = ({
   isLoading,
   error,
   staticSuggesstions,
+  onSelect,
 }: AutoCompleteProps) => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const { get, set } = useLocalStorage();
   const [query, setQuery] = useState<string>("");
-  
+
   const handleChange = (q: string) => {
     if (staticSuggesstions) {
       setSuggestions(
-        staticSuggesstions.filter((r) => r.toLowerCase().includes(q))
+        staticSuggesstions.filter((r) =>
+          r.toLowerCase().includes(q.toLowerCase())
+        )
       );
     }
     if (q.trim().length < 1) {
@@ -34,13 +38,17 @@ const AutoComplete = ({
     setQuery(q);
   };
 
+  const handleSelect = (val: string) => {
+    onSelect && onSelect(val);
+    setQuery(val);
+    setSuggestions([]);
+  };
+
   const debouncedVal = useDebounce(query, 500);
 
-  function isMatchFound(data: any[], key: string) {
-    return data.some((su: string) =>
-      su.toLowerCase().includes(key.toLowerCase())
-    );
-  }
+  const isMatchFound = (data: string[], key: string) => {
+    return data.some((su) => su.toLowerCase().includes(key.toLowerCase()));
+  };
 
   function updateSuggestions(suggestions: any[]) {
     setSuggestions(
@@ -49,7 +57,7 @@ const AutoComplete = ({
       )
     );
   }
-  
+
   useEffect(() => {
     if (staticSuggesstions || !debouncedVal || !debouncedVal.length) return;
     const cachedRes = get("results");
@@ -62,7 +70,7 @@ const AutoComplete = ({
 
   useEffect(() => {
     setSuggestions(results);
-    // update cache whenever new gets results 
+    // update cache whenever new results fetched
     set("results", [...(get("results") ? get("results") : []), ...results]);
   }, [results]);
 
@@ -71,7 +79,12 @@ const AutoComplete = ({
       return suggestions.map((s, i) => {
         const parts = s.split(new RegExp(`(${query})`, "gi"));
         return (
-          <ListItem key={i}>
+          <ListItem
+            onClick={() => {
+              handleSelect(s);
+            }}
+            key={i}
+          >
             {parts.map((p: string, i: number) => (
               <span key={i}>
                 {p.toLowerCase() === highlight.toLowerCase() ? <b>{p}</b> : p}
@@ -118,8 +131,13 @@ const AutoComplete = ({
   );
 };
 
-const ListItem = ({ children }: { children: ReactNode }) => {
-  return <li>{children}</li>;
+type ListItemProps = {
+  onClick?: () => void;
+  children: ReactNode;
+};
+
+const ListItem = ({ children, onClick }: ListItemProps) => {
+  return <li onClick={onClick}>{children}</li>;
 };
 
 export default AutoComplete;
