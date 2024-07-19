@@ -39,7 +39,7 @@ const AutoComplete = ({
   };
 
   const handleSelect = (val: string) => {
-    onSelect && onSelect(val);
+    onSelect?.(val);
     setQuery(val);
     setSuggestions([]);
   };
