@@ -33,7 +33,7 @@ export const Toaster = ({
   ) : null;
 };
 
-export const ToastContainer = ({
+const ToastContainer = ({
   position,
   children,
 }: PropsWithChildren<{ position: ToastPositions }>) => {
@@ -49,7 +49,7 @@ export const ToastContainer = ({
   );
 };
 
-export const Toast = ({
+const Toast = ({
   message,
   type = "success",
   animation = "fade-in",
