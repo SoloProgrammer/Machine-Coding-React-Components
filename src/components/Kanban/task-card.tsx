@@ -41,15 +41,13 @@ export const TaskCard = ({
   ) : (
     <div className="w-full p-4 rounded bg-zinc-800 border border-zinc-400 text-white flex items-center justify-between">
       <span>{content}</span>
-      <span className="flex items-center">
-        <EditIcon
-          onClick={() => setShowForm(true)}
-          className="w-4 h-4 text-white/70 hover:text-white cursor-pointer"
-        />
-        <Trash
-          onClick={handleDelete}
-          className="w-h h-4 ml-1 text-white/70 hover:text-white cursor-pointer"
-        />
+      <span className="flex items-center gap-x-1">
+        <button onClick={() => setShowForm(true)}>
+          <EditIcon className="w-4 h-4 text-white/70 hover:text-white cursor-pointer" />
+        </button>
+        <button onClick={handleDelete}>
+          <Trash className="w-h h-4 text-white/70 hover:text-white cursor-pointer" />
+        </button>
       </span>
     </div>
   );

@@ -6,6 +6,7 @@ import { TaskCard } from "./task-card";
 import { TaskForm } from "./task-form";
 
 import { Category, Task } from "./types";
+import useToast from "../Toastify";
 
 type TaskListProps = {
   tasks: Task[];
@@ -15,6 +16,7 @@ type TaskListProps = {
 
 export const TaskList = ({ tasks, setTasks, category }: TaskListProps) => {
   const [showForm, setShowForm] = useState(false);
+  const { toast } = useToast();
   const addNewTask = (content: string, category: Category) => {
     const newTask: Task = {
       content,
@@ -22,6 +24,7 @@ export const TaskList = ({ tasks, setTasks, category }: TaskListProps) => {
       id: crypto.randomUUID(),
     };
     setTasks((prev) => [...prev, newTask]);
+    toast({ message: "Task added!" });
   };
 
   const updateTask = (updatedTask: Task) => {
@@ -35,10 +38,13 @@ export const TaskList = ({ tasks, setTasks, category }: TaskListProps) => {
       });
       return prev;
     });
+    toast({ message: "Task updated!" });
   };
 
-  const deleteTask = (id: string) =>
+  const deleteTask = (id: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
+    toast({ message: "Task deleted!" });
+  };
 
   return (
     <div className="flex flex-col w-full gap-y-4 flex-grow overflow-y-auto">
@@ -57,13 +63,13 @@ export const TaskList = ({ tasks, setTasks, category }: TaskListProps) => {
           defaultCategory={category}
         />
       ) : (
-        <span
+        <button
           onClick={() => setShowForm(true)}
           role="button"
-          className="text-white/80 hover:text-white text-sm"
+          className="text-white/80 hover:text-white text-sm w-fit"
         >
           Add task +
-        </span>
+        </button>
       )}
     </div>
   );

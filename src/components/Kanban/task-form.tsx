@@ -56,10 +56,11 @@ export const TaskForm = ({
       />
       <div className="flex items-center gap-x-2 mt-2">
         {categories.map((category) => (
-          <span
+          <button
             key={category.id}
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault()
               setSelectedCategory(category);
             }}
             className={cn(
@@ -69,7 +70,7 @@ export const TaskForm = ({
             )}
           >
             {category.title}
-          </span>
+          </button>
         ))}
       </div>
       <div className="flex justify-end items-center gap-x-1 mt-2">
