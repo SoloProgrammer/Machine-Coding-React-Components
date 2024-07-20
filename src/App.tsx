@@ -6,6 +6,7 @@ import "./App.css";
 import axios from "axios";
 import { Toaster } from "./components/Toastify/Toast";
 import useToast from "./components/Toastify";
+import { Kanban } from "./components/Kanban/kanban";
 
 const App = () => {
   const API_URL = "https://dummyjson.com/recipes";
@@ -69,7 +70,7 @@ const App = () => {
   const { toast } = useToast();
   return (
     <div className="app">
-      <Toaster position="bottom-right" animation="fade-in"/>
+      <Toaster position="bottom-right" animation="fade-in" />
       {/* <ThrottleWindowResize /> */}
       {/* <GridLights/> */}
       {/* <div className="autocomplete_wrapper">
@@ -82,7 +83,7 @@ const App = () => {
         />
       </div> */}
       {/* <ToastContainer /> */}
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <button
           onClick={() => {
             toast({ duration: 3000, message: "Email sent" });
@@ -115,7 +116,9 @@ const App = () => {
         >
           Info toast
         </button>
-      </div>
+      </div> */}
+
+      <Kanban />
     </div>
   );
 };

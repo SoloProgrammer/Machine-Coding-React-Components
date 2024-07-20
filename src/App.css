@@ -1,7 +1,11 @@
-.app{
-  margin-inline: 10px;
+body,
+html {
+  @apply h-full;
 }
-.autocomplete_wrapper{
+.app {
+  @apply h-full;
+}
+.autocomplete_wrapper {
   max-width: 32rem;
   margin: auto;
   text-align: center;
